@@ -8,7 +8,7 @@ LABEL maintainer="Hamid Gholami hidgholami@gmail.com" \
       org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url=$VCS_URL \
       org.label-schema.ref=$VCS_REF \
-      org.label-schema.docker-build.cmd="docker build --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg VCS_URL="https://github.com/hamidgholami/customizedalpine.git" --build-arg VCS_REF=$(git show HEAD~0 --pretty=format:"%h" --no-patch) -t hamidgholami/alpine:jdk1.8u251 ." \
+      org.label-schema.docker-build.cmd="docker build --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg VCS_URL="Repository-URL" --build-arg VCS_REF="Commit-ID" -t hamidgholami/alpine:jdk1.8u251 ." \
       org.label-schema.docker.cmd="docker run --rm -it hamidgholami/alpine:jdk1.8u251" \
       org.label-schema.description="This doker image contains latest image of alpine and install on it: wget,curl,openssl,java-jdk1.8u251,ca-certificates,wget,fonts(ttf-dejavu,fontconfig)" \
       org.label-schema.version="1.8.0_251"
@@ -21,6 +21,8 @@ ENV JAVA_HOME=/opt/jdk1.8.0_251 \
 RUN set -ex && \
     apk upgrade --update-cache --available && \
     apk add --no-cache --allow-untrusted /opt/glibc-2.31-r0.apk && \
-    apk add --update openssl fontconfig ttf-dejavu curl ca-certificates wget && \
+    apk add --update fontconfig ttf-dejavu freetype freetype-dev msttcorefonts-installer && update-ms-fonts && fc-cache -f && \
+    #apk add --update fontconfig ttf-dejavu libfontconfig1 libfreetype6 && \
+    apk add --update openssl curl libcurl curl-dev gnutls gnutls-dev ca-certificates wget && \
     update-ca-certificates && \
     rm -rf /var/cache/apk/*
