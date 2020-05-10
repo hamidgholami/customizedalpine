@@ -2,6 +2,20 @@ FROM alpine:3.11
 
 ENV LANG=C.UTF-8
 
+ARG BUILD_DATE
+ARG VCS_URL
+ARG VCS_REF
+
+LABEL maintainer="Hamid Gholami hidgholami@gmail.com" \
+      org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.vcs-url=$VCS_URL \
+      org.label-schema.ref=$VCS_REF \
+      org.label-schema.docker-build.cmd="docker build --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg VCS_URL="Repository-URL" --build-arg VCS_REF="Commit-ID" -t hamidgholami/alpine:jdk1.8u251 ." \
+      org.label-schema.docker.cmd="docker run --rm -it hamidgholami/alpine:jdk1.8u251" \
+      org.label-schema.description="This doker image contains latest image of alpine and install on it: wget,curl,openssl,java-jdk1.8u251,ca-certificates,wget,fonts(ttf-dejavu,fontconfig)" \
+      org.label-schema.version="1.8.0_251"
+
+
 # Here we install GNU libc (aka glibc) and set C.UTF-8 locale as default.
 
 RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
